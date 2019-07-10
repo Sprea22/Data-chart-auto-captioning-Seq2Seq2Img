@@ -1,6 +1,0 @@
-line chart no trend___The following chart reports a line chart without any particular trendline
-line chart no trend___A simple line chart without any particular trends
-line chart ascendant___The following chart reports an ascendant line chart
-line chart ascendant___A line chart with an increasing trend
-line chart descendant___The following chart reports an descendant line chart
-line chart descendant___A line chart with a descreasing trend
