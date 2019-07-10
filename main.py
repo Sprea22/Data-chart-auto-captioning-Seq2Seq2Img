@@ -7,7 +7,7 @@ from LSTM_seq2seq_world_level_inference import seq2seq_inference
 # SYSTEM'S SETTINGS #
 #####################
 
-path_to_classifier_model = './models/Classification_model.h5'
+path_to_classifier_model = './models/classification_model.h5'
 path_to_encoder = './models/encoder_model.h5'
 path_to_decoder = './models/decoder_model.h5'
 path_to_images = "./shared_data/"
