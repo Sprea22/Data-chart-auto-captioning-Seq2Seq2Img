@@ -4,7 +4,7 @@ from Text_Extractor import text_extractor
 from LSTM_seq2seq_world_level_inference import seq2seq_inference
 
 #####################
-# System's settings #
+# SYSTEM'S SETTINGS #
 #####################
 
 path_to_classifier_model = './models/Classification_model.h5'
