@@ -49,13 +49,12 @@ def seq2seq_inference(input_sentences, path_to_encoder, path_to_decoder):
     ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
     # LOADING THE SAVED FILES DURING THE MODEL TRAINING PHASE #
     ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
-
     global reverse_input_char_index, reverse_target_char_index
     global encoder_model, decoder_model
     global encoder_input_data, input_token_index, target_token_index
 
     pkl_files_dir = 'cached_files/'
-    
+
     pkl_file = open(pkl_files_dir + 'reverse_input_char_index.pkl', 'rb')
     reverse_input_char_index= pickle.load(pkl_file)
     pkl_file.close()

@@ -1,12 +1,14 @@
 # import the necessary packages
-from PIL import Image
-import argparse
-import cv2
 import os
-import numpy as np
+import cv2
 import json
-from keras.preprocessing import image
+import argparse
+import numpy as np
+from PIL import Image
 from keras.models import load_model
+from keras.preprocessing import image
+import tensorflow as tf
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 def model_predict(input_image, model):
     labels = ['bar_plot_', 'bar_plot_asc', 'bar_plot_desc', 

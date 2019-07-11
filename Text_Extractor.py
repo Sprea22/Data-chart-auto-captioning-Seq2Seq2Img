@@ -71,7 +71,6 @@ def textual_features_extractor(mode, filename):
             bb = bb.split(" ")
             if(abs(temp_max - int(bb[4])) < 5):
                 temp_title = temp_title + bb[0]
-        print(temp_title)
 
     ##########################################################################################            
     # If mode "y_annotation" is choosen, the text detector will create a crop box
@@ -146,11 +145,14 @@ def text_extractor(images_list):
         # Extracting all the text from an input image
         full_text = textual_features_extractor("full_text", input_image)
         # Detecting the title of the input image
-        title = textual_features_extractor("title", input_image)
+        # title = textual_features_extractor("title", input_image)
+
         # Detecting the X axis annotation of the input image
-        x_annotation = textual_features_extractor("x_annotation", input_image)
+        # x_annotation = textual_features_extractor("x_annotation", input_image)
+
         # Detecting the Y axis annotation of the input image
-        y_annotation = textual_features_extractor("y_annotation", input_image)
-        return texts_list
+        # y_annotation = textual_features_extractor("y_annotation", input_image)
+
+        return full_text
 
 
