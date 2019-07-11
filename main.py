@@ -1,10 +1,14 @@
 import sys
+import time
 from Plot_Classifier import plot_classification
 from Text_Extractor import text_extractor 
 from LSTM_seq2seq_world_level_inference import seq2seq_inference
 import tensorflow as tf
 tf.logging.set_verbosity(tf.logging.ERROR)
 
+# start_time = time.time()
+# print("--- %s seconds ---" % (time.time() - start_time))
+ 
 #####################
 # SYSTEM'S SETTINGS #
 #####################

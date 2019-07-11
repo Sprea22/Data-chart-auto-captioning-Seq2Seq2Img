@@ -39,7 +39,7 @@ def plot_classification(images_list, path_to_classifier_model):
 
     # Loading the classification model
     model_path = path_to_classifier_model
-    model = load_model(model_path)
+    model = load_model(model_path, compile=False)
     print('Model loaded.')
     model._make_predict_function()         
     print('Model loaded. Start serving...')
