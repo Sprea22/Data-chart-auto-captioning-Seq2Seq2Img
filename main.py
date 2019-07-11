@@ -28,7 +28,7 @@ for img in os.listdir(path_to_images):
 ################################
 # CLASSIFYING THE INPUT IMAGES #
 ################################
-print("------- Classyfing the input images..\n")
+print("------- Classifying the input images..\n")
 classification_results = plot_classification(images_list, path_to_classifier_model)
 
 # Formatting the classification results in order to feed the LSTM seq2seq model

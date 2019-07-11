@@ -1,6 +1,7 @@
 
 import re
 import string
+import keras
 import numpy as np
 import pandas as pd
 from string import digits
@@ -133,16 +134,26 @@ decoder_dense = Dense(num_decoder_tokens, activation='softmax')
 decoder_outputs = decoder_dense(decoder_outputs)
 
 # Encoder-Decoder model structure
-model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
 
+model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
 model.summary()
+
+'''
+earlystop = keras.callbacks.EarlyStopping(monitor = 'val_acc',
+                                            min_delta = 0.0001, 
+                                            patience = 100,
+                                            verbose = 1,
+                                            mode='auto',
+                                            restore_best_weights=True)
+callbacks_list = [earlystop]
+'''
 
 # Fit the model
 model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
-          batch_size=128,
-          epochs=1500,
-          validation_split=0.05)
+          batch_size=5,
+          epochs=500,
+          validation_split=0.20)
 
 encoder_model = Model(encoder_inputs, encoder_states)
 encoder_model.summary()

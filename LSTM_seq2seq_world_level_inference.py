@@ -23,7 +23,6 @@ def decode_sequence(input_seq):
     while not stop_condition:
         output_tokens, h, c = decoder_model.predict(
             [target_seq] + states_value)
-
         # Sample a token
         sampled_token_index = np.argmax(output_tokens[0, -1, :])
         sampled_char = reverse_target_char_index[sampled_token_index]
@@ -43,7 +42,7 @@ def decode_sequence(input_seq):
         states_value = [h, c]
 
     return decoded_sentence
-
+    
 def seq2seq_inference(input_sentences, path_to_encoder, path_to_decoder):
 
     ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
@@ -80,18 +79,17 @@ def seq2seq_inference(input_sentences, path_to_encoder, path_to_decoder):
     ### ### ### ### ####
     # MODEL INFERENCES #
     ### ### ### ### ####
+    # Encoding the input sentences
+    encoder_input_data = np.zeros((len(input_sentences), 7), dtype='float32')
+    for i, input_text in enumerate(input_sentences):
+        for t, word in enumerate(input_text.split()):
+            encoder_input_data[i, t] = input_token_index[word]
+            
     decoded_sentences = []
-    for input_seq in input_sentences:
-        encoded_input_sentence = np.zeros(7, dtype='float32')
-        for t, word in enumerate(input_seq.split()):
-            encoded_input_sentence[t] = input_token_index[word]
-
+    for seq_index in range(0,len(input_sentences)):
+        input_seq = encoder_input_data[seq_index: seq_index + 1]
         # decode_sequence is the inference function of the model
-        decoded_sentence = decode_sequence(encoded_input_sentence)
+        decoded_sentence = decode_sequence(input_seq)
         decoded_sentences.append(decoded_sentence)
-        print('-')
-        print('Input sentence:', input_seq)
-        print('Encoded Input sentence:', encoded_input_sentence)
-        print('Decoded Output sentence:', decoded_sentence)
-    
+
     return decoded_sentences
