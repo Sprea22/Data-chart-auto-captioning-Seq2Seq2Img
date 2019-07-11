@@ -1,72 +1,12 @@
 
 import re
+import pickle 
 import string
 import numpy as np
 import pandas as pd
 from string import digits
 import matplotlib.pyplot as plt
 from keras.models import load_model
-
-def sentences_pre_processing(lines):
-    # Pre processing on the input sentences
-    lines.inp=lines.inp.apply(lambda x: x.lower())
-    lines.out=lines.out.apply(lambda x: x.lower())
-
-    # Replying some special chars from the input sentences
-    lines.inp=lines.inp.apply(lambda x: re.sub("'", '', x)).apply(lambda x: re.sub(",", ' COMMA', x))
-    lines.out=lines.out.apply(lambda x: re.sub("'", '', x)).apply(lambda x: re.sub(",", ' COMMA', x))
-
-    # Removing punctuations from the input senteces
-    exclude = set(string.punctuation)
-    lines.inp=lines.inp.apply(lambda x: ''.join(ch for ch in x if ch not in exclude))
-    lines.out=lines.out.apply(lambda x: ''.join(ch for ch in x if ch not in exclude))
-
-    # Removing digits from the input senteces
-    remove_digits = str.maketrans('', '', digits)
-    lines.inp=lines.inp.apply(lambda x: x.translate(remove_digits))
-    lines.out=lines.out.apply(lambda x: x.translate(remove_digits))
-
-    # Adding 'START_ ' token at the beginning of each output sentence
-    # Adding ' _END' token at the end of each output sentence
-    lines.out = lines.out.apply(lambda x : 'START_ '+ x + ' _END')
-
-    return lines
-
-def data_encoding(lines):
-    # Creating the input sentences dictionary
-    all_inp_words=set()
-    for inp in lines.inp:
-        for word in inp.split():
-            if word not in all_inp_words:
-                all_inp_words.add(word)
-    input_words = sorted(list(all_inp_words))
-    num_encoder_tokens = len(all_inp_words) + 1
-    input_token_index = dict([(word, i) for i, word in enumerate(input_words, 1)])
-
-    # Creating the output sentences dictionary
-    all_out_words=set()
-    for out in lines.out:
-        for word in out.split():
-            if word not in all_out_words:
-                all_out_words.add(word)
-    target_words = sorted(list(all_out_words))
-    num_decoder_tokens = len(all_out_words) + 1
-    target_token_index = dict([(word, i) for i, word in enumerate(target_words, 1)])
-
-    # Intiailizing the encoder/decoder arrays
-    encoder_input_data = np.zeros((len(lines.inp), 7), dtype='float32')
-
-    # Representing each input/output/target sentence using an array.
-    # !!! Input length right now is set to 7 and output to 16. 
-    # !!! In order to change it just modify the numbers few rows above
-    # EX ---> [5, 7, 3, 1, 0, 0, 0]
-    for i, (input_text, target_text) in enumerate(zip(lines.inp, lines.out)):
-        for t, word in enumerate(input_text.split()):
-            encoder_input_data[i, t] = input_token_index[word]
-
-
-    # Loading the pre trained models of the encoder and decoder
-    return encoder_input_data, input_token_index, target_token_index
 
 def decode_sequence(input_seq):
     # Encode the input as state vectors.
@@ -105,24 +45,32 @@ def decode_sequence(input_seq):
     return decoded_sentence
 
 def seq2seq_inference(input_sentences, path_to_encoder, path_to_decoder):
-    # Reading the input - output sentences
-    lines= pd.read_table('test.txt', sep="___", names=['inp', 'out'])
 
-    ### ### ### ### ### ####
-    # INPUT PRE PROCESSING #
-    ### ### ### ### ### ####
-    lines = sentences_pre_processing(lines)
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+    # LOADING THE SAVED FILES DURING THE MODEL TRAINING PHASE #
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
-    ### ### ### ### ### ### #####
-    # ANALYZING INPUT SENTENCES #
-    ### ### ### ### ### ### #####
-    global reverse_input_char_index, reverse_target_char_index, encoder_model, decoder_model, encoder_input_data, input_token_index, target_token_index
+    global reverse_input_char_index, reverse_target_char_index
+    global encoder_model, decoder_model
+    global encoder_input_data, input_token_index, target_token_index
 
-    encoder_input_data, input_token_index, target_token_index = data_encoding(lines)
+    pkl_files_dir = 'cached_files/'
+    
+    pkl_file = open(pkl_files_dir + 'reverse_input_char_index.pkl', 'rb')
+    reverse_input_char_index= pickle.load(pkl_file)
+    pkl_file.close()
 
-    # Reverse-lookup token index to decode sequences back to something readable.
-    reverse_input_char_index = dict((i, char) for char, i in input_token_index.items())
-    reverse_target_char_index = dict((i, char) for char, i in target_token_index.items())
+    pkl_file = open(pkl_files_dir + 'reverse_target_char_index.pkl', 'rb')
+    reverse_target_char_index= pickle.load(pkl_file)
+    pkl_file.close()
+
+    pkl_file = open(pkl_files_dir + 'input_token_index.pkl', 'rb')
+    input_token_index= pickle.load(pkl_file)
+    pkl_file.close()
+
+    pkl_file = open(pkl_files_dir + 'target_token_index.pkl', 'rb')
+    target_token_index= pickle.load(pkl_file)
+    pkl_file.close()
 
     ### ### ### ### ### ### ### ### ##
     # LOADING THE PRE TRAINED MODELS #

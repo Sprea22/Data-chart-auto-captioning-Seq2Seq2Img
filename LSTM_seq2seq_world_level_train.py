@@ -32,7 +32,7 @@ def sentences_pre_processing(lines):
     return lines
 
 # Reading the input - output sentences
-lines= pd.read_table('test.txt', sep="___", names=['inp', 'out'])
+lines= pd.read_table('cached_files/test.txt', sep="___", names=['inp', 'out'])
 
 ### ### ### ### ### ####
 # INPUT PRE PROCESSING #
@@ -87,6 +87,21 @@ for i, (input_text, target_text) in enumerate(zip(lines.inp, lines.out)):
             # decoder_target_data will be ahead by one timestep
             # and will not include the start character.
             decoder_target_data[i, t - 1, target_token_index[word]] = 1.
+
+import pickle 
+# write the dicts to files
+dictionary_list = {
+                    "reverse_input_char_index"      : reverse_input_char_index, 
+                    "reverse_target_char_index"     : reverse_target_char_index, 
+                    "input_token_index"             : input_token_index, 
+                    "target_token_index"            : target_token_index
+                    }
+
+for to_save_dict in dictionary_list:
+    output_dict = open("cached_files/" + to_save_dict + '.pkl', 'wb')
+    pickle.dump(dictionary_list[to_save_dict], output_dict)
+    output_dict.close()
+    
 
 ### ### ### ### ### ### ### ### #### 
 # ENCODER-DECODER MODEL DEFINITION #
