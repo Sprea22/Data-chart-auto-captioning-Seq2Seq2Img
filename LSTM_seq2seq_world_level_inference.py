@@ -89,9 +89,9 @@ def seq2seq_inference(input_sentences, path_to_encoder, path_to_decoder):
         # decode_sequence is the inference function of the model
         decoded_sentence = decode_sequence(encoded_input_sentence)
         decoded_sentences.append(decoded_sentence)
-        #print('-')
-        #print('Input sentence:', input_seq)
-        #print('Encoded Input sentence:', encoded_input_sentence)
-        #print('Decoded Output sentence:', decoded_sentence)
+        print('-')
+        print('Input sentence:', input_seq)
+        print('Encoded Input sentence:', encoded_input_sentence)
+        print('Decoded Output sentence:', decoded_sentence)
     
     return decoded_sentences

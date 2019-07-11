@@ -5,6 +5,7 @@ from Text_Extractor import text_extractor
 from LSTM_seq2seq_world_level_inference import seq2seq_inference
 import tensorflow as tf
 tf.logging.set_verbosity(tf.logging.ERROR)
+import os
 
 # start_time = time.time()
 # print("--- %s seconds ---" % (time.time() - start_time))
@@ -20,7 +21,9 @@ path_to_images = "./shared_data/"
 ##########################
 # DATA CHART IMAGES LIST #
 ##########################
-images_list = [path_to_images + "test_line_asc.png", path_to_images + "test2_line_asc.png"]
+images_list = []
+for img in os.listdir(path_to_images):
+    images_list.append(path_to_images + img)
 
 ################################
 # CLASSIFYING THE INPUT IMAGES #

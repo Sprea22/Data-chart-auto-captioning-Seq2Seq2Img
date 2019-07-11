@@ -89,6 +89,7 @@ for i, (input_text, target_text) in enumerate(zip(lines.inp, lines.out)):
             decoder_target_data[i, t - 1, target_token_index[word]] = 1.
 
 import pickle 
+
 # write the dicts to files
 dictionary_list = {
                     "reverse_input_char_index"      : reverse_input_char_index, 
@@ -140,8 +141,8 @@ model.summary()
 # Fit the model
 model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
           batch_size=128,
-          epochs=500,
-          validation_split=0.20)
+          epochs=1500,
+          validation_split=0.05)
 
 encoder_model = Model(encoder_inputs, encoder_states)
 encoder_model.summary()
@@ -162,6 +163,6 @@ decoder_model = Model([decoder_inputs] + decoder_states_inputs, [decoder_outputs
 # SAVING THE TRAINED MODELS #
 ### ### ### ### ### ### ### #
 
-encoder_model.save('encoder_model.h5')  
-decoder_model.save('decoder_model.h5')  
+encoder_model.save('models/encoder_model.h5')  
+decoder_model.save('models/decoder_model.h5')  
 
