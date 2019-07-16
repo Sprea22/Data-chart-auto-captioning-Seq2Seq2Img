@@ -28,6 +28,8 @@ def textual_features_extractor(mode, filename):
             height_tot, width = gray_tot.shape
             height = round (height_tot / slides_start)
             gray = gray_tot[0:height, 0:width]
+            
+            filename = filename.split("/")[-1]
 
             # Saving the current cropped image in the right path
             filename_temp = mode + "_" + str(slides_start) + "_" + filename
@@ -40,7 +42,7 @@ def textual_features_extractor(mode, filename):
             text = pytesseract.image_to_string(Image.open(path_to_save))
 
             # If text is still empty, next iteration the crop box will increase the dimension
-            slides_start = slides_start - (slides_start/50)
+            slides_start = slides_start - (slides_start/2)
 
         # The return will be the 1st string that has been found in the crop box        
         text = text.split("\n")[0]
@@ -143,16 +145,18 @@ def text_extractor(images_list):
     texts_list = []
     for input_image in images_list:
         # Extracting all the text from an input image
-        full_text = textual_features_extractor("full_text", input_image)
+        #full_text = textual_features_extractor("full_text", input_image)
+        
         # Detecting the title of the input image
-        # title = textual_features_extractor("title", input_image)
-
+        title = textual_features_extractor("title", input_image)
+        
         # Detecting the X axis annotation of the input image
         # x_annotation = textual_features_extractor("x_annotation", input_image)
 
         # Detecting the Y axis annotation of the input image
         # y_annotation = textual_features_extractor("y_annotation", input_image)
+        texts_list.append(title)
 
-        return full_text
+    return texts_list
 
 

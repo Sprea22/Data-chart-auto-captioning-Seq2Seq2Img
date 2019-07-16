@@ -46,6 +46,7 @@ for res in classification_results:
 ###############################################
 print("------- Extracting the textual information from the images..\n")
 text_results = text_extractor(images_list)
+print(text_results)
 
 ##################################################
 # CAPTION GENERATION THROUGH LSTM2 seq2seq MODEL #
@@ -58,3 +59,8 @@ caption_results = seq2seq_inference(input_sequences, path_to_encoder, path_to_de
 ##########################
 print("------- SUCCESS! \n")
 print(caption_results)
+
+for i in range(0,3):
+    print("\n#### About the image number " + str(i) + " ####")
+    print("TITLE: ", text_results[i])
+    print("CAPTION: ", caption_results[i])
