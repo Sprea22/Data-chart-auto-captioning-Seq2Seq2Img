@@ -1,11 +1,11 @@
-line chart no trend___The following chart reports a line chart without any particular trendline
-line chart no trend___A simple line chart without any particular trends
-line chart no trend___It's a line chart with no particular trends.
-line chart ascendant___The following chart illustrates an ascendant line chart
-line chart ascendant___A line chart with an increasing trend
-line chart ascendant___The trend of the line chart is ascendant
-line chart ascendant___It is a line chart with an ascendant trend
-line chart descendant___It's a line chart with a descendant trend
-line chart descendant___The following chart describes a descendant line chart
-line chart descendant___The following chart reports a decreasing trend
-line chart descendant___A line chart with a descreasing trend
+line chart no trend title___The following chart reports a line chart about title without any particular trendline
+line chart no trend title___A simple line chart about title without any particular trends
+line chart no trend title___It's a line chart with no particular trends about title.
+line chart ascendant title___The following chart illustrates the title an ascendant line chart
+line chart ascendant title___A line chart about title with an increasing trend
+line chart ascendant title___The trend of the title within the following line chart is ascendant
+line chart ascendant title___It is a line chart about title with an ascendant trend
+line chart descendant title___It's a line chart about title with a descendant trend
+line chart descendant title___The following chart describes title and it has a descendant trend
+line chart descendant title___The following chart reports a decreasing trend about title
+line chart descendant title___A line chart about title with a descreasing trend

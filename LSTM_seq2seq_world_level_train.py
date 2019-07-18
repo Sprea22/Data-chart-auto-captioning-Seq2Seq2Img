@@ -50,6 +50,7 @@ all_inp_words=set()
 for inp in lines.inp:
     for word in inp.split():
         if word not in all_inp_words:
+            print(word)
             all_inp_words.add(word)
 input_words = sorted(list(all_inp_words))
 num_encoder_tokens = len(all_inp_words) + 1

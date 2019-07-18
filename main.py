@@ -31,26 +31,30 @@ for img in os.listdir(path_to_images):
 print("------- Classifying the input images..\n")
 classification_results = plot_classification(images_list, path_to_classifier_model)
 
+###############################################
+# EXTRACTING THE TEXTUAL INFO FROM THE IMAGES #
+###############################################
+print("------- Extracting the textual information from the images..\n")
+titles_list, x_annotations_list, y_annotations_list = text_extractor(images_list)
+
+##################################################
+# CAPTION GENERATION THROUGH LSTM2 seq2seq MODEL #
+##################################################
+
 # Formatting the classification results in order to feed the LSTM seq2seq model
 print("------- Formatting the classification results..\n")
 input_sequences = []
+classification_seq = []
 for res in classification_results:
     plot_type = res.split("_")[0]
     try: trend = res.split("_")[1]
     except: trend = ""
     temp_sentence = plot_type + " " + trend
+    classification_seq.append(temp_sentence)
     input_sequences.append(temp_sentence)
+for idx in range(0, len(input_sequences)):
+    input_sequences[idx] = input_sequences[idx] + " title"
 
-###############################################
-# EXTRACTING THE TEXTUAL INFO FROM THE IMAGES #
-###############################################
-print("------- Extracting the textual information from the images..\n")
-text_results = text_extractor(images_list)
-print(text_results)
-
-##################################################
-# CAPTION GENERATION THROUGH LSTM2 seq2seq MODEL #
-##################################################
 print("------- Generating the caption..\n")
 caption_results = seq2seq_inference(input_sequences, path_to_encoder, path_to_decoder)
 
@@ -58,9 +62,12 @@ caption_results = seq2seq_inference(input_sequences, path_to_encoder, path_to_de
 # DISPLAYING THE RESULTS #
 ##########################
 print("------- SUCCESS! \n")
-print(caption_results)
 
-for i in range(0,3):
-    print("\n#### About the image number " + str(i) + " ####")
-    print("TITLE: ", text_results[i])
-    print("CAPTION: ", caption_results[i])
+for i in range(0,len(images_list)):
+    print("\n#### About the image num " + str(i) + " ####")
+    print("Classification : ", classification_seq[i])
+    print("Title : ", titles_list[i])
+    print("X label : ", x_annotations_list[i])
+    print("Y label : ", y_annotations_list[i])
+    print("-----> Generated Caption : '", caption_results[i], "'")
+print("\n")
